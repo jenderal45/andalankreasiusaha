@@ -19,70 +19,117 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background: radial-gradient(circle at top, #111 0%, #000 60%);
+    background: radial-gradient(circle at top, #111 0%, #000 65%);
     font-family: 'Segoe UI', sans-serif;
     overflow:hidden;
 }
 
-/* ANIMATED BACKGROUND */
+/* MOVING LIGHT BACKGROUND */
 body::before{
     content:"";
     position:absolute;
-    width:200%;
-    height:200%;
+    inset:-50%;
     background:
-        linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.03) 50%, transparent 55%);
-    animation: moveBg 12s linear infinite;
+        linear-gradient(120deg,
+        transparent 40%,
+        rgba(255,255,255,0.04) 50%,
+        transparent 60%);
+    animation:bgMove 14s linear infinite;
 }
 
-@keyframes moveBg{
-    from{ transform:translateX(-50%) translateY(-50%); }
-    to{ transform:translateX(0) translateY(0); }
+@keyframes bgMove{
+    from{ transform:translateX(-30%) translateY(-30%); }
+    to{ transform:translateX(30%) translateY(30%); }
 }
 
 /* LOGO CONTAINER */
-.logo-wrapper{
+.logo-box{
     position:relative;
     z-index:2;
     text-align:center;
+    animation: logoIntro 2.2s ease forwards;
 }
 
 /* LOGO */
-.logo-wrapper img{
+.logo-box img{
     width:280px;
     max-width:80vw;
-    filter:
-        drop-shadow(0 0 15px rgba(255,255,255,0.2))
-        drop-shadow(0 0 35px rgba(255,255,255,0.1));
-    transition:0.6s ease;
+    opacity:0;
+    animation:
+        logoFade 1.5s ease forwards,
+        floatLogo 6s ease-in-out infinite 2s,
+        glowPulse 4s ease-in-out infinite 2s;
 }
 
-/* HOVER EFFECT */
-.logo-wrapper img:hover{
-    transform:scale(1.08);
-    filter:
-        drop-shadow(0 0 25px rgba(255,255,255,0.4))
-        drop-shadow(0 0 60px rgba(255,255,255,0.2));
-}
-
-/* SUBTLE TEXT (OPTIONAL) */
+/* TAGLINE */
 .tagline{
-    margin-top:20px;
-    font-size:0.85rem;
+    margin-top:18px;
+    font-size:0.8rem;
     letter-spacing:4px;
     color:#777;
-    text-transform:uppercase;
-    animation: fadeIn 2s ease forwards;
+    opacity:0;
+    animation: textFade 1.5s ease forwards 1.4s;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(10px);}
-    to{opacity:1; transform:translateY(0);}
+/* ANIMATIONS */
+@keyframes logoIntro{
+    from{ transform:scale(0.92); }
+    to{ transform:scale(1); }
+}
+
+@keyframes logoFade{
+    from{
+        opacity:0;
+        transform:scale(0.8);
+        filter:blur(6px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+        filter:blur(0);
+    }
+}
+
+@keyframes floatLogo{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-14px); }
+}
+
+@keyframes glowPulse{
+    0%,100%{
+        filter:
+            drop-shadow(0 0 12px rgba(255,255,255,0.2))
+            drop-shadow(0 0 30px rgba(255,255,255,0.1));
+    }
+    50%{
+        filter:
+            drop-shadow(0 0 25px rgba(255,255,255,0.45))
+            drop-shadow(0 0 70px rgba(255,255,255,0.25));
+    }
+}
+
+@keyframes textFade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* HOVER INTERACTIVE */
+.logo-box img:hover{
+    transform:scale(1.1);
+    filter:
+        drop-shadow(0 0 35px rgba(255,255,255,0.6))
+        drop-shadow(0 0 90px rgba(255,255,255,0.3));
 }
 
 /* MOBILE */
 @media(max-width:600px){
-    .logo-wrapper img{
+    .logo-box img{
         width:220px;
     }
     .tagline{
@@ -95,9 +142,10 @@ body::before{
 
 <body>
 
-<div class="logo-wrapper">
-    <img src="https://raw.githubusercontent.com/jenderal45/andalankreasiusaha/main/IMG-20251219-WA0008-removebg-preview.png" alt="Andalan Kreasi Usaha Logo">
-    <div class="tagline">IT Hardware • Otomotif</div>
+<div class="logo-box">
+    <img src="https://raw.githubusercontent.com/jenderal45/andalankreasiusaha/main/IMG-20251219-WA0008-removebg-preview.png"
+         alt="Andalan Kreasi Usaha">
+    <div class="tagline">IT HARDWARE • OTOMOTIF</div>
 </div>
 
 </body>
